@@ -34,8 +34,8 @@ $(document).ready(function() {
         fromUnit.empty();
         toUnit.empty();
         $.each(units[unitType], function(key, value) {
-            fromUnit.append($('<option></option>').attr('value', key).text(key));
-            toUnit.append($('<option></option>').attr('value', key).text(key));
+            fromUnit.append($('<option></option>').attr('value', value).text(key));
+            toUnit.append($('<option></option>').attr('value', value).text(key));
         });
     }
 
@@ -46,8 +46,8 @@ $(document).ready(function() {
 
     $('#convertBtn').click(function() {
         const unitType = $('#unitType').val();
-        const fromUnit = $('#fromUnit').val();
-        const toUnit = $('#toUnit').val();
+        const fromUnitValue = parseFloat($('#fromUnit').val());
+        const toUnitValue = parseFloat($('#toUnit').val());
         const inputValue = parseFloat($('#inputValue').val());
 
         if (isNaN(inputValue)) {
@@ -55,10 +55,18 @@ $(document).ready(function() {
             return;
         }
 
-        const baseValue = inputValue * units[unitType][fromUnit];
-        const convertedValue = baseValue / units[unitType][toUnit];
+        const baseValue = inputValue * fromUnitValue;
+        const convertedValue = baseValue / toUnitValue;
 
-        $('#result').html(`<h4>${inputValue} ${fromUnit} = ${convertedValue.toFixed(6)} ${toUnit}</h4>`).fadeIn();
+        // Redondear el valor convertido
+        let displayValue;
+        if (convertedValue < 1) {
+            displayValue = convertedValue.toFixed(6).replace(/\.?0+$/, '');
+        } else {
+            displayValue = convertedValue.toFixed(2).replace(/\.?0+$/, '');
+        }
+
+        $('#result').html(`<h4>${inputValue} ${$('#fromUnit option:selected').text()} = ${displayValue} ${$('#toUnit option:selected').text()}</h4>`).fadeIn();
     });
 
     $('#swapBtn').click(function() {
