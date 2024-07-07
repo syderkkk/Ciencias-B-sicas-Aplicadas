@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    const units = {
-        length: {
+    const unidades = {
+        longitud: {
             metro: 1,
             kilómetro: 0.001,
             centímetro: 100,
@@ -10,14 +10,14 @@ $(document).ready(function() {
             pie: 3.28084,
             pulgada: 39.3701
         },
-        mass: {
+        masa: {
             gramo: 1,
             kilogramo: 0.001,
             miligramo: 1000,
             libra: 0.00220462,
             onza: 0.035274
         },
-        time: {
+        tiempo: {
             segundo: 1,
             minuto: 1/60,
             hora: 1/3600,
@@ -28,53 +28,61 @@ $(document).ready(function() {
         }
     };
 
-    function populateUnits(unitType) {
-        const fromUnit = $('#fromUnit');
-        const toUnit = $('#toUnit');
-        fromUnit.empty();
-        toUnit.empty();
-        $.each(units[unitType], function(key, value) {
-            fromUnit.append($('<option></option>').attr('value', value).text(key));
-            toUnit.append($('<option></option>').attr('value', value).text(key));
+    function poblarUnidades(tipoUnidad) {
+        const unidadDesde = $('#unidadDesde');
+        const unidadHasta = $('#unidadHasta');
+        unidadDesde.empty();
+        unidadHasta.empty();
+        $.each(unidades[tipoUnidad], function(key, value) {
+            unidadDesde.append($('<option></option>').attr('value', value).text(key));
+            unidadHasta.append($('<option></option>').attr('value', value).text(key));
         });
     }
 
-    $('#unitType').change(function() {
-        const unitType = $(this).val();
-        populateUnits(unitType);
+    $('#tipoUnidad').change(function() {
+        const tipoUnidad = $(this).val();
+        poblarUnidades(tipoUnidad);
     });
 
-    $('#convertBtn').click(function() {
-        const unitType = $('#unitType').val();
-        const fromUnitValue = parseFloat($('#fromUnit').val());
-        const toUnitValue = parseFloat($('#toUnit').val());
-        const inputValue = parseFloat($('#inputValue').val());
+    $('#botonConvertir').click(function() {
+        const tipoUnidad = $('#tipoUnidad').val();
+        const valorUnidadDesde = parseFloat($('#unidadDesde').val());
+        const valorUnidadHasta = parseFloat($('#unidadHasta').val());
+        const valorEntrada = parseFloat($('#valorEntrada').val());
 
-        if (isNaN(inputValue)) {
+        if (isNaN(valorEntrada)) {
             alert('Por favor ingrese un valor válido.');
             return;
         }
 
-        const baseValue = inputValue * fromUnitValue;
-        const convertedValue = baseValue / toUnitValue;
-
-        // Redondear el valor convertido
-        let displayValue;
-        if (convertedValue < 1) {
-            displayValue = convertedValue.toFixed(6).replace(/\.?0+$/, '');
-        } else {
-            displayValue = convertedValue.toFixed(2).replace(/\.?0+$/, '');
+        if ($('#unidadDesde').val() === $('#unidadHasta').val()) {
+            $('#unidadHasta').addClass('conversion-invalida');
+            setTimeout(function() {
+                $('#unidadHasta').removeClass('conversion-invalida');
+            }, 2000); // El color rojo desaparecerá después de 2 segundos
+            return;
         }
 
-        $('#result').html(`<h4>${inputValue} ${$('#fromUnit option:selected').text()} = ${displayValue} ${$('#toUnit option:selected').text()}</h4>`).fadeIn();
+        const valorBase = valorEntrada * valorUnidadDesde;
+        const valorConvertido = valorBase / valorUnidadHasta;
+
+        // Redondear el valor convertido
+        let valorMostrar;
+        if (valorConvertido < 1) {
+            valorMostrar = valorConvertido.toFixed(10).replace(/\.?0+$/, '');
+        } else {
+            valorMostrar = valorConvertido.toFixed(6).replace(/\.?0+$/, '');
+        }
+
+        $('#resultado').html(`<h4><span class="subrayado">${valorEntrada}</span> ${$('#unidadDesde option:selected').text()} = <span class="subrayado">${valorMostrar}</span> ${$('#unidadHasta option:selected').text()}</h4>`).fadeIn();
     });
 
-    $('#swapBtn').click(function() {
-        const fromUnit = $('#fromUnit').val();
-        const toUnit = $('#toUnit').val();
-        $('#fromUnit').val(toUnit);
-        $('#toUnit').val(fromUnit);
+    $('#botonIntercambiar').click(function() {
+        const unidadDesde = $('#unidadDesde').val();
+        const unidadHasta = $('#unidadHasta').val();
+        $('#unidadDesde').val(unidadHasta);
+        $('#unidadHasta').val(unidadDesde);
     });
 
-    populateUnits($('#unitType').val());
+    poblarUnidades($('#tipoUnidad').val());
 });
