@@ -8,11 +8,13 @@ body {
     border: none; /* Sin bordes para la tarjeta */
     border-radius: 10px; /* Bordes redondeados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor de la tarjeta */
+    border: 2px solid black; 
 }
 .card-header {
-    background-color: #007bff; /* Color de fondo del encabezado */
-    color: white; /* Color del texto del encabezado */
+    background-color: rgb(192,252,44); /* Color de fondo del encabezado */
+    color: rgb(0, 0, 0); /* Color del texto del encabezado */
     border-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
+    border: 2px solid black;
 }
 .form-group label {
     font-weight: bold; /* Negrita para las etiquetas */
@@ -28,19 +30,21 @@ body {
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    background-color: #007bff; /* Color de fondo del botón */
-    border: none; /* Sin borde */
+    background-color: rgb(192,252,44); /* Color de fondo del botón */
+    border: 2px solid black; 
+    /*border: none;  Sin borde */
 }
 .boton-intercambiar .btn:hover {
     background-color: #0056b3; /* Color de fondo al hacer hover */
 }
 .boton-intercambiar .svg-icon {
-    fill: #ffffff; /* Color del ícono SVG */
+    fill: #000000; /* Color del ícono SVG */
     transition: transform 0.6s, fill 0.3s; /* Transiciones suaves */
 }
 .btn:hover .svg-icon {
     transform: rotateY(180deg); /* Rotación del ícono al hacer hover */
     fill: #00f2ff; /* Cambio de color del ícono al hacer hover */
+    
 }
 #resultado {
     display: none; /* Oculto por defecto */
@@ -61,4 +65,10 @@ body {
 .unidad-seleccionada {
     background-color: #ffdddd !important; /* Color de fondo para unidades iguales */
     border: 1px solid #ff0000; /* Borde rojo para unidades iguales */
+}
+
+.btn-convertir {
+    background-color: rgb(192,252,44); /* Color de fondo del botón en RGB */
+    color: rgb(0, 0, 0); /* Color del texto del botón */
+    border: 2px solid black; /* Borde negro alrededor del botón */
 }
